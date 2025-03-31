@@ -8,6 +8,11 @@ const colors = [
   "#ffffff"
 ];
 
+// Get modal elements
+const modal = document.getElementById("qrModal");
+const btn = document.getElementById("celebrateBtn");
+const closeBtn = document.getElementsByClassName("close-btn")[0];
+
 function createConfetti() {
   for (let i = 0; i < 100; i++) {
     setTimeout(() => {
@@ -28,13 +33,15 @@ function createConfetti() {
 
 createConfetti();
 
-document.getElementById("celebrateBtn").addEventListener("click", () => {
+// Modal event listeners
+btn.addEventListener("click", () => {
   createConfetti();
-
+  
+  // Try to play audio
   const audio = new Audio("assets/audio.mp3");
   audio.play().catch(e => console.log("Audio playback failed:", e));
-  celebrateBtn.disabled = true;
-
+  
+  // Animate elements
   document.querySelectorAll(".lantern").forEach(lantern => {
     lantern.style.animation = "sway 3s infinite ease-in-out";
     setTimeout(() => {
@@ -48,8 +55,24 @@ document.getElementById("celebrateBtn").addEventListener("click", () => {
       ketupat.style.animation = "float 3s infinite ease-in-out";
     }, 3000);
   });
+  
+  // Show the modal
+  modal.style.display = "flex";
 });
 
+// Close the modal
+closeBtn.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+// Also close when clicking outside of modal content
+window.addEventListener("click", (event) => {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+});
+
+// Create twinkling stars
 setInterval(() => {
   const star = document.createElement("div");
   star.classList.add("star");
